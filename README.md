@@ -6,7 +6,7 @@ This repository holds code examples and explanation about bugs for [Radium](http
 
 To be able to run this project it is important to download repository, open a terminal, go to the root of a project folder and then run next 2 commands:
 
-```node
+```
 npm install
 npm start
 ```
@@ -55,15 +55,21 @@ There is no way to style placeholder in a certain situation. The only way to sty
 
 When floating elements inside the container it is important to clear floats so that containing elements height would not be zero. With CSS it is easy to do that with known clearfix method by adding clearfix class which adds :before and :after pseudo-elements. To achieve similar method with Radium there are only 3 ways and none is good enough to be compared to clearfix. One is to add CSS rule to the container which would be:
 
-```CSS
-overflow: auto/hidden;
+```css
+overflow: auto;
+```
+
+or
+
+```css
+overflow: hidden;
 ```
 
 This method is best I found so far but it is definitely not enough. Let's say containing elements have a box shadow, it is going to bu cut off using this method. Also, there is time when hiding overflow is in no way wanted.
 
 Second and third options are practically 90's solution. Adding an empty div element with:
 
-```CSS
+```css
 clear: both;
 ```
 
