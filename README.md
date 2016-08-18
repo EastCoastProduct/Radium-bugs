@@ -6,8 +6,10 @@ This repository holds code examples and explanation about bugs for [Radium](http
 
 To be able to run this project it is important to download repository, open a terminal, go to the root of a project folder and then run next 2 commands:
 
-    npm install
-    npm start
+```
+npm install
+npm start
+```
 
 This would install needed packages and start a server on [http://localhost:3000](http://localhost:3000/).
 
@@ -33,12 +35,36 @@ Code for this bug is in *src/components/IndexLinkBug.js*.
 
 Using React Router is a very common use case. In that case, we have to use Link and IndexLink components from React Router module if we want to have links pointing to a certain route. To be able to style these components it is important to wrap each of those components with Radium:
 
-    import Radium from 'radium';
-    import { Link as RRLink, IndexLink as RRIndexLink } from 'react-router';
+```javascript
+import Radium from 'radium';
+import { Link as RRLink, IndexLink as RRIndexLink } from 'react-router';
 
-    const Link = Radium(RRLink);
-    const IndexLink = Radium(RRIndexLink);
+const Link = Radium(RRLink);
+const IndexLink = Radium(RRIndexLink);
+```
 
 ![Hover Bug Gif](https://github.com/EastCoastProduct/Radium-bugs/blob/master/gifs/indexLinkBug.gif)
 
 Now it's possible to style each of these components with Radium. So, we have a navigation menu on top of our application which has 4 items. The first link in the menu is IndexLink as it's pointing to our default opening page, other 3 are regular Link components. All 4 items are sharing same Radium style object and they can have 3 different styles, normal, hovered and active. All they do is color change in case of different states. For Link components all 3 states do work, but for IndexLink component hover state never works. If we click on any other menu item other than Hover Bug that item will be active. Now, if we try to hover over other menu items, Link items do get hover styles but IndexLink doesn't for some reason. I do not have any explanation why is this happening.
+
+## Placeholder
+
+There is no way to style placeholder in a certain situation. The only way to style a placeholder is by using a Style component but that is certainly not enough. This way it is only possible to style all placeholders for the application, not possible to style multiple placeholders in a different way. CSS allows to style placeholder per class or id which gives and option to change classes with JS and placeholder styles, but how would one do that with Radium without actually adding classes to HTML elements and styling placeholders with classes using Style component. To me, this is a downside of Radium as I don't think there's a way to style placeholders using JS only so I can't propose the solution to this.
+
+## Clearfix
+
+When floating elements inside the container it is important to clear floats so that containing elements height would not be zero. With CSS it is easy to do that with known clearfix method by adding clearfix class which adds :before and :after pseudo-elements. To achieve similar method with Radium there are only 3 ways and none is good enough to be compared to clearfix. One is to add CSS rule to the container which would be:
+
+```CSS
+overflow: auto/hidden;
+```
+
+This method is best I found so far but it is definitely not enough. Let's say containing elements have a box shadow, it is going to bu cut off using this method. Also, there is time when hiding overflow is in no way wanted.
+
+Second and third options are practically 90's solution. Adding an empty div element with:
+
+```CSS
+clear: both;
+```
+
+rule, or even worse, adding two elements, one as a first child of the container and second as the last child and giving them style rules that we would give to :before and :after pseudo-elements in the case of standard clearfix solution. I think there is already one issue regarding this specific problem where one of the contributors mentioned that they would support clearfix by default by adding 2 additional elements through Radium. That sounds like a reasonable solution to me as that way we wouldn't have unnecessary additional elements in our code.
