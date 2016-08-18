@@ -6,7 +6,7 @@ This repository holds code examples and explanation about bugs for [Radium](http
 
 To be able to run this project it is important to download repository, open a terminal, go to the root of a project folder and then run next 2 commands:
 
-```
+```node
 npm install
 npm start
 ```
