@@ -55,22 +55,28 @@ There is no way to style placeholder in a certain situation. The only way to sty
 
 When floating elements inside the container it is important to clear floats so that containing elements height would not be zero. With CSS it is easy to do that with known clearfix method by adding clearfix class which adds :before and :after pseudo-elements. To achieve similar method with Radium there are only 3 ways and none is good enough to be compared to clearfix. One is to add CSS rule to the container which would be:
 
-```css
-overflow: auto;
+```javascript
+{
+  overflow: 'auto',
+}
 ```
 
 or
 
-```css
-overflow: hidden;
+```javascript
+{
+  overflow: 'hidden',
+}
 ```
 
-This method is best I found so far but it is definitely not enough. Let's say containing elements have a box shadow, it is going to bu cut off using this method. Also, there is time when hiding overflow is in no way wanted.
+This method is best I found so far but it is definitely not enough. Let's say containing elements have a box shadow, it is going to be cut off using this method. Also, there is time when hiding overflow is in no way wanted.
 
 Second and third options are practically 90's solution. Adding an empty div element with:
 
-```css
-clear: both;
+```javascript
+{
+  clear: 'both',
+}
 ```
 
 rule, or even worse, adding two elements, one as a first child of the container and second as the last child and giving them style rules that we would give to :before and :after pseudo-elements in the case of standard clearfix solution. I think there is already one issue regarding this specific problem where one of the contributors mentioned that they would support clearfix by default by adding 2 additional elements through Radium. That sounds like a reasonable solution to me as that way we wouldn't have unnecessary additional elements in our code.
